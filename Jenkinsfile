@@ -12,9 +12,14 @@ pipeline {
             }
         }
 
-        stage('Run Flask Application') {
+    stage('Run Flask Application') {
     steps {
-        sh 'docker run -d --name flask-app --network cicd-net -p 5000:5000 flask-employee-app'
+        sh '''
+            pkill -f "python.*app.py" || true
+            nohup .venv/bin/python app.py > flask.log 2>&1 &
+            sleep 2
+            curl -f http://localhost:5000/
+        '''
     }
 }
     }
