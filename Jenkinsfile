@@ -4,13 +4,19 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                sh 'python3 -m pip install -r requirements.txt'
+                sh '''
+                    python3 -m venv .venv
+                    .venv/bin/python -m pip install --upgrade pip
+                    .venv/bin/python -m pip install -r requirements.txt
+                '''
             }
         }
 
         stage('Run Flask Application') {
             steps {
-                sh 'nohup python3 app.py > flask.log 2>&1 &'
+                sh '''
+                    nohup .venv/bin/python app.py > flask.log 2>&1 &
+                '''
             }
         }
     }
