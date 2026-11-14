@@ -13,12 +13,10 @@ pipeline {
         }
 
         stage('Run Flask Application') {
-            steps {
-                sh '''
-                   sh 'docker run -d --name flask-app --network cicd-net -p 5000:5000 your-flask-image'
-                '''
-            }
-        }
+    steps {
+        sh 'docker run -d --name flask-app --network cicd-net -p 5000:5000 flask-employee-app'
+    }
+}
     }
 
     post {
